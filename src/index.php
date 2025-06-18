@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/config/Database.php';
 require_once __DIR__ . '/controllers/UserController.php';
+require_once __DIR__ . '/controllers/TaskController.php';
 
 header('Content-Type: application/json');
 
@@ -15,6 +16,7 @@ function getJsonInput() {
 }
 
 $userController = new UserController($db);
+$taskController = new TaskController($pdo);
 
 switch (true) {
 
@@ -23,16 +25,7 @@ switch (true) {
     break;
 
   case $method === 'GET' && preg_match('#^/tasks/(\d+)$#', $uri, $matches):
-    $taskId = $matches[1];
-    $stmt = $pdo->prepare('SELECT id, user_id, title, description, creation_date, status FROM tasks WHERE id = ?');
-    $stmt->execute([$taskId]);
-    $task = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$task) {
-      http_response_code(404);
-      echo json_encode(['error' => 'Task not found']);
-      break;
-    }
-    echo json_encode($task, JSON_PRETTY_PRINT);
+    $taskController->getTask($matches[1]);
     break;
 
   case $method === 'GET' && preg_match('#^/users/(\d+)/tasks$#', $uri, $matches):
