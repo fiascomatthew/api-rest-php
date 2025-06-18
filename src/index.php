@@ -33,17 +33,7 @@ switch (true) {
     break;
 
   case $method === 'POST' && preg_match('#^/users/(\d+)/tasks$#', $uri, $matches):
-    $userId = $matches[1];
-    $input = getJsonInput();
-    if (!isset($input['title'], $input['description'], $input['status'])) {
-      http_response_code(400);
-      echo json_encode(['error' => 'Missing fields']);
-      break;
-    }
-    $stmt = $pdo->prepare('INSERT INTO tasks (user_id, title, description, creation_date, status) VALUES (?, ?, ?, NOW(), ?) RETURNING id, user_id, title, description, creation_date, status');
-    $stmt->execute([$userId, $input['title'], $input['description'], $input['status']]);
-    $task = $stmt->fetch(PDO::FETCH_ASSOC);
-    echo json_encode($task, JSON_PRETTY_PRINT);
+    $taskController->create($matches[1], getJsonInput());
     break;
 
 

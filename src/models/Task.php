@@ -19,4 +19,14 @@ class Task {
     $stmt->execute([$userId]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  public function create($userId, $title, $description, $status) {
+    $stmt = $this->pdo->prepare('
+      INSERT INTO tasks (user_id, title, description, creation_date, status)
+      VALUES (?, ?, ?, NOW(), ?)
+      RETURNING id, user_id, title, description, creation_date, status
+    ');
+    $stmt->execute([$userId, $title, $description, $status]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+  }
 }
