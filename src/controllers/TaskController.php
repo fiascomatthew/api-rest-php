@@ -54,8 +54,18 @@ class TaskController {
       echo json_encode(['error' => 'User not found']);
       return;
     }
-    
+
     $task = $this->model->create($userId, $input['title'], $input['description'], $input['status']);
     echo json_encode($task, JSON_PRETTY_PRINT);
+  }
+
+  public function delete($id) {
+    $success = $this->model->delete($id);
+    if (!$success) {
+      http_response_code(404);
+      echo json_encode(['error' => 'Task not found']);
+      return;
+    }
+    http_response_code(204);
   }
 }

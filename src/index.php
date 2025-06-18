@@ -36,22 +36,8 @@ switch (true) {
     $taskController->create($matches[1], getJsonInput());
     break;
 
-
-  case $method === 'DELETE' && preg_match('#^/users/(\d+)/tasks/(\d+)$#', $uri, $matches):
-    $userId = $matches[1];
-    $taskId = $matches[2];
-
-    $stmt = $pdo->prepare('SELECT id FROM tasks WHERE id = ? AND user_id = ?');
-    $stmt->execute([$taskId, $userId]);
-    $task = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$task) {
-      http_response_code(404);
-      echo json_encode(['error' => 'Task not found for this user']);
-      break;
-    }
-    $stmt = $pdo->prepare('DELETE FROM tasks WHERE id = ?');
-    $stmt->execute([$taskId]);
-    http_response_code(204);
+  case $method === 'DELETE' && preg_match('#^/tasks/(\d+)$#', $uri, $matches):
+    $taskController->delete($matches[1]);
     break;
 
   default:

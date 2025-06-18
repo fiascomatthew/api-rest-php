@@ -9,7 +9,7 @@ Voici la liste des endpoints que je vais mettre en place pour l'API demandée:
 | GET          | /tasks/{id}                 | Récupérer une tâche                                      | -                               | { id, user_id, title, description, creation_date, status }     |
 | GET          | /users/{id}/tasks           | Récupérer les tâches d'un utilisateur                    | -                               | [ { id, user_id, title, description, creation_date, status } ] |
 | POST         | /users/{id}/tasks           | Créer et ajouter une nouvelle tâche pour un utilisateur  | { title, description, status }  | { id, user_id, title, description, creation_date, status }     |
-| DELETE       | /users/{id}/tasks/{taskId}  | Supprimer une tâche                                      | -                               | -                                                              |
+| DELETE       | /tasks/{id}                 | Supprimer une tâche                                      | -                               | -                                                              |
 
 
 ## Hameçon

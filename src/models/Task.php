@@ -29,4 +29,15 @@ class Task {
     $stmt->execute([$userId, $title, $description, $status]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
+
+  public function delete($id) {
+    $stmt = $this->pdo->prepare('SELECT id FROM tasks WHERE id = ?');
+    $stmt->execute([$id]);
+    $task = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$task) return false;
+
+    $stmt = $this->pdo->prepare('DELETE FROM tasks WHERE id = ?');
+    $stmt->execute([$id]);
+    return true;
+  }
 }
