@@ -3,15 +3,14 @@ require_once __DIR__ . '/../models/User.php';
 
 class UserController {
 
-  private $pdo;
+  private $model;
 
   public function __construct($pdo) {
-    $this->pdo = $pdo;
+    $this->model = new User($pdo);
   }
 
   public function show($id) {
-    $userModel = new User($this->pdo);
-    $user = $userModel->findById($id);
+    $user = $this->model->findById($id);
 
     if (!$user) {
       http_response_code(404);

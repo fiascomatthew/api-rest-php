@@ -3,12 +3,12 @@ require_once __DIR__ . '/../models/Task.php';
 
 class TaskController {
 
-  private $pdo;
   private $model;
+  private $userModel;
 
   public function __construct($pdo) {
-    $this->pdo = $pdo;
     $this->model = new Task($pdo);
+    $this->userModel = new User($pdo);
   }
 
   public function show($id) {
@@ -24,11 +24,7 @@ class TaskController {
   }
 
   public function listByUser($userId) {
-    $stmt = $this->pdo->prepare('SELECT id FROM users WHERE id = ?');
-    $stmt->execute([$userId]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$user) {
+    if (!$this->userModel->findById($userId)) {
       http_response_code(404);
       echo json_encode(['error' => 'User not found']);
       return;
@@ -45,11 +41,7 @@ class TaskController {
       return;
     }
 
-    $stmt = $this->pdo->prepare('SELECT id FROM users WHERE id = ?');
-    $stmt->execute([$userId]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$user) {
+    if (!$this->userModel->findById($userId)) {
       http_response_code(404);
       echo json_encode(['error' => 'User not found']);
       return;
