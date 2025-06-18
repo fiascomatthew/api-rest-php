@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/config/Database.php';
+require_once __DIR__ . '/controllers/UserController.php';
 
 header('Content-Type: application/json');
 
@@ -13,19 +14,12 @@ function getJsonInput() {
   return json_decode(file_get_contents('php://input'), true);
 }
 
+$userController = new UserController($db);
+
 switch (true) {
 
   case $method === 'GET' && preg_match('#^/users/(\d+)$#', $uri, $matches):
-    $userId = $matches[1];
-    $stmt = $pdo->prepare('SELECT id, name, email FROM users WHERE id = ?');
-    $stmt->execute([$userId]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$user) {
-      http_response_code(404);
-      echo json_encode(['error' => 'User not found']);
-      break;
-    }
-    echo json_encode($user, JSON_PRETTY_PRINT);
+    $userController->getUser($matches[1]);
     break;
 
   case $method === 'GET' && preg_match('#^/tasks/(\d+)$#', $uri, $matches):
