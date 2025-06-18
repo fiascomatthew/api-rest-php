@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../models/Task.php';
 require_once __DIR__ . '/Controller.php';
+require_once __DIR__ . '/../utils/Validator.php';
 
 class TaskController extends Controller {
 
@@ -35,12 +36,13 @@ class TaskController extends Controller {
 
   public function create($userId) {
     $input = json_decode(file_get_contents('php://input'), true);
-    
-    if (!isset($input['title'], $input['description'], $input['status'])) {
-      $this->jsonError('Missing fields', 400);
+
+    $errors = Validator::validateTaskInput($input);
+    if (!empty($errors)) {
+      $this->jsonError(['errors' => $errors], 400);
       return;
     }
-
+    
     if (!$this->userModel->findById($userId)) {
       http_response_code(404);
       $this->jsonError('User not found', 404);
