@@ -21,19 +21,15 @@ $taskController = new TaskController($pdo);
 switch (true) {
 
   case $method === 'GET' && preg_match('#^/users/(\d+)$#', $uri, $matches):
-    $userController->getUser($matches[1]);
+    $userController->show($matches[1]);
     break;
 
   case $method === 'GET' && preg_match('#^/tasks/(\d+)$#', $uri, $matches):
-    $taskController->getTask($matches[1]);
+    $taskController->show($matches[1]);
     break;
 
   case $method === 'GET' && preg_match('#^/users/(\d+)/tasks$#', $uri, $matches):
-    $userId = $matches[1];
-    $stmt = $pdo->prepare('SELECT id, user_id, title, description, creation_date, status FROM tasks WHERE user_id = ?');
-    $stmt->execute([$userId]);
-    $tasks = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    echo json_encode($tasks, JSON_PRETTY_PRINT);
+    $taskController->listByUser($matches[1]);
     break;
 
   case $method === 'POST' && preg_match('#^/users/(\d+)/tasks$#', $uri, $matches):

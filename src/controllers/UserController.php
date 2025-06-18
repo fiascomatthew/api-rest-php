@@ -9,7 +9,7 @@ class UserController {
     $this->pdo = $pdo;
   }
 
-  public function getUser($id) {
+  public function show($id) {
     $userModel = new User($this->pdo);
     $user = $userModel->findById($id);
 

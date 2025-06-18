@@ -13,4 +13,10 @@ class Task {
     $stmt->execute([$id]);
     return $stmt->fetch(PDO::FETCH_ASSOC);
   }
+
+  public function findAllByUserId($userId) {
+    $stmt = $this->pdo->prepare('SELECT id, user_id, title, description, creation_date, status FROM tasks WHERE user_id = ?');
+    $stmt->execute([$userId]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
