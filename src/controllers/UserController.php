@@ -3,14 +3,14 @@ require_once __DIR__ . '/../models/User.php';
 
 class UserController {
 
-  private $dataSource;
+  private $pdo;
 
-  public function __construct($dataSource) {
-    $this->dataSource = $dataSource;
+  public function __construct($pdo) {
+    $this->pdo = $pdo;
   }
 
   public function getUser($id) {
-    $userModel = new User($this->dataSource);
+    $userModel = new User($this->pdo);
     $user = $userModel->findById($id);
 
     if (!$user) {

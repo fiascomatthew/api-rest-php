@@ -15,7 +15,7 @@ function getJsonInput() {
   return json_decode(file_get_contents('php://input'), true);
 }
 
-$userController = new UserController($db);
+$userController = new UserController($pdo);
 $taskController = new TaskController($pdo);
 
 switch (true) {
