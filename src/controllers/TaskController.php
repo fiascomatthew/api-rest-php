@@ -33,7 +33,9 @@ class TaskController extends Controller {
     $this->jsonResponse($tasks);
   }
 
-  public function create($userId, $input) {
+  public function create($userId) {
+    $input = json_decode(file_get_contents('php://input'), true);
+    
     if (!isset($input['title'], $input['description'], $input['status'])) {
       $this->jsonError('Missing fields', 400);
       return;
