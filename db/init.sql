@@ -1,3 +1,5 @@
+CREATE TYPE enum_task AS ENUM('pending', 'in_progress', 'done');
+
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
@@ -10,5 +12,5 @@ CREATE TABLE tasks (
   title VARCHAR(100) NOT NULL,
   description TEXT,
   creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  status ENUM('pending', 'in_progress', 'done') NOT NULL
+  status enum_task NOT NULL
 );
