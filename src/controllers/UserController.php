@@ -1,8 +1,8 @@
 <?php
 require_once __DIR__ . '/../models/User.php';
-require_once __DIR__ . '/Controller.php';
+require_once __DIR__ . '/../utils/Response.php';
 
-class UserController extends Controller {
+class UserController {
 
   private $model;
 
@@ -14,10 +14,9 @@ class UserController extends Controller {
     $user = $this->model->findById($id);
 
     if (!$user) {
-      $this->jsonError('User not found', 404);
-      return;
+      return Response::notFound(['error' => 'User not found']);
     }
 
-    $this->jsonResponse($user);
+    return Response::ok($user);
   }
 }

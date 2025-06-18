@@ -18,27 +18,26 @@ $taskController = new TaskController($pdo);
 $router = new Router($uri, $method);
 
 $router->add('GET', '#^/users/(\d+)$#', function($id) use ($userController) {
-  $userController->show($id);
+  return $userController->show($id);
 });
 $router->add('GET', '#^/tasks/(\d+)$#', function($id) use ($taskController) {
-  $taskController->show($id);
+  return $taskController->show($id);
 });
 $router->add('GET', '#^/users/(\d+)/tasks$#', function($userId) use ($taskController) {
-  $taskController->listByUser($userId);
+  return $taskController->listByUser($userId);
 });
 $router->add('POST', '#^/users/(\d+)/tasks$#', function($userId) use ($taskController) {
-  $taskController->create($userId);
+  return $taskController->create($userId);
 });
 $router->add('DELETE', '#^/tasks/(\d+)$#', function($id) use ($taskController) {
-  $taskController->delete($id);
+  return $taskController->delete($id);
 });
 
 try {
-  $router->dispatch();
+  $response = $router->dispatch();
+  if ($response instanceof Response) {
+    $response->send();
+  }
 } catch (Throwable $e) {
-  http_response_code(500);
-  echo json_encode([
-    'error' => 'Internal Server Error',
-    'message' => $e->getMessage()
-  ]);
+  Response::internalServerError(['error' => $e->getMessage()])->send();
 }

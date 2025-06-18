@@ -21,11 +21,9 @@ class Router {
     foreach ($this->routes as $route) {
       if ($this->method === $route['method'] && preg_match($route['pattern'], $this->uri, $matches)) {
         array_shift($matches);
-        call_user_func_array($route['callback'], $matches);
-        return;
+        return call_user_func_array($route['callback'], $matches);
       }
     }
-    http_response_code(404);
-    echo json_encode(['error' => "The requested resource was not found."], JSON_PRETTY_PRINT);
+    return Response::notFound(['error' => 'The requested resource was not found.']);
   }
 }

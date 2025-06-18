@@ -1,9 +1,9 @@
 <?php
 require_once __DIR__ . '/../models/Task.php';
-require_once __DIR__ . '/Controller.php';
 require_once __DIR__ . '/../utils/Validator.php';
+require_once __DIR__ . '/../utils/Response.php';
 
-class TaskController extends Controller {
+class TaskController {
 
   private $model;
   private $userModel;
@@ -17,21 +17,19 @@ class TaskController extends Controller {
     $task = $this->model->findById($id);
 
     if (!$task) {
-      $this->jsonError('Task not found', 404);
-      return;
+      return Response::notFound(['error' => 'Task not found']);
     }
 
-    $this->jsonResponse($task);
+    return Response::ok($task);
   }
 
   public function listByUser($userId) {
     if (!$this->userModel->findById($userId)) {
-      $this->jsonError('User not found', 404);
-      return;
+      return Response::notFound(['error' => 'User not found']);
     }
     
     $tasks = $this->model->findAllByUserId($userId);
-    $this->jsonResponse($tasks);
+    return Response::ok($tasks);
   }
 
   public function create($userId) {
@@ -39,26 +37,22 @@ class TaskController extends Controller {
 
     $errors = Validator::validateTaskInput($input);
     if (!empty($errors)) {
-      $this->jsonError(['errors' => $errors], 400);
-      return;
+      return Response::badRequest(['errors' => $errors]);
     }
     
     if (!$this->userModel->findById($userId)) {
-      http_response_code(404);
-      $this->jsonError('User not found', 404);
-      return;
+      return Response::notFound(['error' => 'User not found']);
     }
 
     $task = $this->model->create($userId, $input['title'], $input['description'], $input['status']);
-    $this->jsonResponse($task);
+    return Response::ok($task);
   }
 
   public function delete($id) {
     $success = $this->model->delete($id);
     if (!$success) {
-      $this->jsonError('Task not found', 404);
-      return;
+      return Response::notFound(['error' => 'Task not found']);
     }
-    $this->jsonResponse(null, 204);
+    return Response::noContent();
   }
 }
