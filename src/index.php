@@ -33,4 +33,12 @@ $router->add('DELETE', '#^/tasks/(\d+)$#', function($id) use ($taskController) {
   $taskController->delete($id);
 });
 
-$router->dispatch();
+try {
+  $router->dispatch();
+} catch (Throwable $e) {
+  http_response_code(500);
+  echo json_encode([
+    'error' => 'Internal Server Error',
+    'message' => $e->getMessage()
+  ]);
+}
