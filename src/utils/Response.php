@@ -18,6 +18,10 @@ class Response {
     return new self(200, $data);
   }
 
+  public static function created($data = null) {
+    return new self(201, $data);
+  }
+
   public static function noContent() {
     return new self(204);
   }

@@ -45,7 +45,7 @@ class TaskController {
     }
 
     $task = $this->model->create($userId, $input['title'], $input['description'], $input['status']);
-    return Response::ok($task);
+    return Response::created($task);
   }
 
   public function delete($id) {
