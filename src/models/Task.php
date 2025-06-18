@@ -2,42 +2,73 @@
 require_once __DIR__ . '/../config/Database.php';
 
 class Task {
-  private $pdo;
 
-  public function __construct($pdo) {
-    $this->pdo = $pdo;
+  private $id;
+  private $userId;
+  private $title;
+  private $description;
+  private $creationDate;
+  private $status;
+
+  public function __construct($userId, $title, $description, $status) {
+    $this->userId = $userId;
+    $this->title = $title;
+    $this->description = $description;
+    $this->status = $status;
+    $this->creationDate = date('Y-m-d H:i:s');
   }
 
-  public function findById($id) {
-    $stmt = $this->pdo->prepare('SELECT id, user_id, title, description, creation_date, status FROM tasks WHERE id = ?');
-    $stmt->execute([$id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+  public function getId() {
+    return $this->id;
   }
 
-  public function findAllByUserId($userId) {
-    $stmt = $this->pdo->prepare('SELECT id, user_id, title, description, creation_date, status FROM tasks WHERE user_id = ?');
-    $stmt->execute([$userId]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+  public function setId($id) {
+    $this->id = $id;
+    return $this;
   }
 
-  public function create($userId, $title, $description, $status) {
-    $stmt = $this->pdo->prepare('
-      INSERT INTO tasks (user_id, title, description, creation_date, status)
-      VALUES (?, ?, ?, NOW(), ?)
-      RETURNING id, user_id, title, description, creation_date, status
-    ');
-    $stmt->execute([$userId, $title, $description, $status]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+  public function getUserId() {
+    return $this->userId;
   }
 
-  public function delete($id) {
-    $stmt = $this->pdo->prepare('SELECT id FROM tasks WHERE id = ?');
-    $stmt->execute([$id]);
-    $task = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$task) return false;
+  public function setUserId($userId) {
+    $this->userId = $userId;
+    return $this;
+  }
 
-    $stmt = $this->pdo->prepare('DELETE FROM tasks WHERE id = ?');
-    $stmt->execute([$id]);
-    return true;
+  public function getTitle() {
+    return $this->title;
+  }
+
+  public function setTitle($title) {
+    $this->title = $title;
+    return $this;
+  }
+
+  public function getDescription() {
+    return $this->description;
+  }
+
+  public function setDescription($description) {
+    $this->description = $description;
+    return $this;
+  }
+
+  public function getCreationDate() {
+    return $this->creationDate;
+  }
+
+  public function setCreationDate($creationDate) {
+    $this->creationDate = $creationDate;
+    return $this;
+  }
+
+  public function getStatus() {
+    return $this->status;
+  }
+
+  public function setStatus($status) {
+    $this->status = $status;
+    return $this;
   }
 }
