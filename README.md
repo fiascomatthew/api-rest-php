@@ -24,6 +24,10 @@ docker-compose up --build
 - Les scripts d'initialisation et de seeding sont automatiquement exécutés au démarrage des conteneurs
 - L'API sera accessible à l'adresse http://localhost:8080
 
+### Documentation
+
+Voici la [documentation de l'API](API_DOCUMENTATION.md).
+
 ## Hameçon
 
 Pour pouvoir informer le partenaire de manière automatisée, je propose qu'on mette en place un webhook. Il faut que le partenaire ait un endpoint sur lequel envoyer une requête POST avec les données qu'il attend. Et de notre côté, dans notre application, il faut ajouter un écouteur d'évènement qui déclenche cette requête lorsqu'une création de carte se produit.
