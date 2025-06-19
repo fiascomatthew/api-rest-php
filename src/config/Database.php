@@ -1,17 +1,19 @@
 <?php
 class Database {
 
-  private $connection;
+  private PDO $connection;
 
   public function __construct() {
     $this->connection = $this->createConnection();
   }
 
-  public function getConnection() {
+  public function getConnection(): PDO
+  {
     return $this->connection;
   }
 
-  private function createConnection() {
+  private function createConnection(): PDO
+  {
     try {
       $hostname = getenv('POSTGRES_HOST') ?: 'db';
       $port = getenv('POSTGRES_PORT') ?: '5432';

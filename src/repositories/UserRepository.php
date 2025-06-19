@@ -8,7 +8,7 @@ class UserRepository {
     $this->pdo = $pdo;
   }
 
-  public function findById($id): ?User
+  public function findById(int $id): ?User
   {
     $stmt = $this->pdo->prepare('SELECT id, name, email FROM users WHERE id = ?');
     $stmt->execute([$id]);

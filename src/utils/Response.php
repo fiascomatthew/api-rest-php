@@ -1,11 +1,11 @@
 <?php
 
 class Response {
-  private $code;
-  private $data;
-  private $headers;
+  private int $code;
+  private mixed $data;
+  private array $headers;
 
-  private function __construct($code, $data = null) {
+  private function __construct(int $code, mixed $data = null) {
     $this->code = $code;
     $this->data = $data;
     $this->headers = [
@@ -14,35 +14,43 @@ class Response {
     ];
   }
 
-  public static function ok($data = null) {
+  public static function ok(mixed $data = null): self 
+  {
     return new self(200, $data);
   }
 
-  public static function created($data = null) {
+  public static function created(mixed $data = null): self 
+  {
     return new self(201, $data);
   }
 
-  public static function noContent() {
+  public static function noContent(): self 
+  {
     return new self(204);
   }
 
-  public static function badRequest($data = null) {
+  public static function badRequest(mixed $data = null): self 
+  {
     return new self(400, $data);
   }
 
-  public static function notFound($data = null) {
+  public static function notFound($data = null): self 
+  {
     return new self(404, $data);
   }
 
-  public static function notAllowed($data = null) {
+  public static function notAllowed($data = null): self 
+  {
     return new self(405, $data);
   }
 
-  public static function internalServerError($data = null) {
+  public static function internalServerError(mixed $data = null): self 
+  {
     return new self(500, $data);
   }
 
-  public function send() {
+  public function send(): void
+  {
     http_response_code($this->code);
     foreach ($this->headers as $key => $value) {
       header("$key: $value");

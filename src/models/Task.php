@@ -29,7 +29,7 @@ class Task {
     return $this->id;
   }
 
-  public function setId($id): self
+  public function setId(int $id): self
   {
     $this->id = $id;
     return $this;
@@ -40,7 +40,7 @@ class Task {
     return $this->userId;
   }
 
-  public function setUserId($userId): self
+  public function setUserId(int $userId): self
   {
     $this->userId = $userId;
     return $this;
@@ -51,7 +51,7 @@ class Task {
     return $this->title;
   }
 
-  public function setTitle($title): self
+  public function setTitle(string $title): self
   {
     $this->title = $title;
     return $this;
@@ -62,7 +62,7 @@ class Task {
     return $this->description;
   }
 
-  public function setDescription($description): self 
+  public function setDescription(?string $description): self 
   {
     $this->description = $description;
     return $this;
@@ -73,7 +73,7 @@ class Task {
     return $this->creationDate;
   }
 
-  public function setCreationDate($creationDate): self
+  public function setCreationDate(?string $creationDate): self
   {
     $this->creationDate = $creationDate;
     return $this;
@@ -84,7 +84,7 @@ class Task {
     return $this->status;
   }
 
-  public function setStatus($status): self
+  public function setStatus(string $status): self
   {
     $this->status = $status;
     return $this;

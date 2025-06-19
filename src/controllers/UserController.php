@@ -11,7 +11,8 @@ class UserController {
     $this->repository = new UserRepository($pdo);
   }
 
-  public function show($id) {
+  public function show(int $id): Response 
+  {
     $user = $this->repository->findById($id);
 
     if (!$user) {

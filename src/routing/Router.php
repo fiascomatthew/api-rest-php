@@ -1,15 +1,16 @@
 <?php
 class Router {
-  private $uri;
-  private $method;
-  private $routes = [];
+  private string $uri;
+  private string $method;
+  private array $routes = [];
 
-  public function __construct($uri, $method) {
+  public function __construct(string $uri, string $method) {
     $this->uri = $uri;
     $this->method = $method;
   }
 
-  public function add($method, $pattern, $callback) {
+  public function add(string $method, string $pattern, callable $callback): void
+  {
     $this->routes[] = [
       'method' => $method,
       'pattern' => $pattern,
@@ -17,7 +18,8 @@ class Router {
     ];
   }
 
-  public function dispatch() {
+  public function dispatch(): mixed 
+  {
     foreach ($this->routes as $route) {
       if ($this->method === $route['method'] && preg_match($route['pattern'], $this->uri, $matches)) {
         array_shift($matches);

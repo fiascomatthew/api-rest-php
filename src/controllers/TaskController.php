@@ -15,7 +15,8 @@ class TaskController {
     $this->userRepository = new UserRepository($pdo);
   }
 
-  public function show($id) {
+  public function show(int $id): Response 
+  {
     $task = $this->repository->findById($id);
 
     if (!$task) {
@@ -25,7 +26,8 @@ class TaskController {
     return Response::ok($task->toArray());
   }
 
-  public function listByUser($userId) {
+  public function listByUser(int $userId): Response
+  {
     if (!$this->userRepository->findById($userId)) {
       return Response::notFound(['error' => 'User not found']);
     }
@@ -34,7 +36,8 @@ class TaskController {
     return Response::ok(array_map(fn($task) => $task->toArray(), $tasks));
   }
 
-  public function create($userId) {
+  public function create(int $userId): Response
+  {
     $input = json_decode(file_get_contents('php://input'), true);
     
     if (!$this->userRepository->findById($userId)) {
@@ -51,8 +54,10 @@ class TaskController {
     return Response::created($task->toArray());
   }
 
-  public function delete($id) {
+  public function delete(int $id): Response
+  {
     $success = $this->repository->delete($id);
+
     if (!$success) {
       return Response::notFound(['error' => 'Task not found']);
     }

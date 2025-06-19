@@ -8,7 +8,7 @@ class TaskRepository {
     $this->pdo = $pdo;
   }
 
-  public function findById($id): ?Task
+  public function findById(int $id): ?Task
   {
     $stmt = $this->pdo->prepare('SELECT id, user_id, title, description, creation_date, status FROM tasks WHERE id = ?');
     $stmt->execute([$id]);
@@ -16,7 +16,7 @@ class TaskRepository {
     return $row ? Task::fromArray($row) : null;
   }
 
-  public function findAllByUserId($userId): array
+  public function findAllByUserId(int $userId): array
   {
     $stmt = $this->pdo->prepare('SELECT id, user_id, title, description, creation_date, status FROM tasks WHERE user_id = ?');
     $stmt->execute([$userId]);
@@ -43,7 +43,7 @@ class TaskRepository {
     return Task::fromArray($row);
   }
 
-  public function delete($id): bool 
+  public function delete(int $id): bool 
   {
     $stmt = $this->pdo->prepare('SELECT id FROM tasks WHERE id = ?');
     $stmt->execute([$id]);
