@@ -24,7 +24,6 @@ docker-compose up --build
 - Les scripts d'initialisation et de seeding sont automatiquement exécutés au démarrage des conteneurs
 - L'API sera accessible à l'adresse http://localhost:8080
 
-
 ## Hameçon
 
 Pour pouvoir informer le partenaire de manière automatisée, je propose qu'on mette en place un webhook. Il faut que le partenaire ait un endpoint sur lequel envoyer une requête POST avec les données qu'il attend. Et de notre côté, dans notre application, il faut ajouter un écouteur d'évènement qui déclenche cette requête lorsqu'une création de carte se produit.
@@ -45,7 +44,24 @@ Il y a trois clefs primaires (Primary Key):
 - réf_opération pour l'entité Opération
 
 Il y a deux clefs étrangères (Foreign Key) à déduire des relations et cardinalités:
-- Une carte appartient nécessairement à un utilisateur -> l'entité Carte contient donc une FK utilisateur_réf
-- Une opération est nécessairement effectuée avec une carte -> l'entité Opération contient donc une FK carte_réf
+- Une carte appartient nécessairement à un utilisateur -> l'entité Carte contient une FK utilisateur_réf
+- Une opération est nécessairement effectuée avec une carte -> l'entité Opération contient une FK carte_réf
 
 ### Exemples de requête SQL
+
+- Insérer un nouveau porteur de carte dans la base de données:
+
+En partant du principe que l'id est auto-incrémenté, on ne le précise pas dans la requête:
+
+```sql
+INSERT INTO card_holder (lastname, firstname, phone_number, email)
+VALUES ('Doe', 'John', '0601010101', 'john.doe@gmail.com');
+```
+- Enregistrer une nouvelle opération:
+
+En partant du principe que l'id est auto-incrémenté, on ne le précise pas dans la requête. 
+
+```sql
+INSERT INTO operation (amount, type, operated_at, label, currency, card_id) 
+VALUES (15000, 'debit', '2025-06-19 01:30:00', 'SNCF Payment', 'EUR', 3);
+```
