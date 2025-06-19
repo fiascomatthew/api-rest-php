@@ -3,71 +3,89 @@ require_once __DIR__ . '/../config/Database.php';
 
 class Task {
 
-  private $id;
-  private $userId;
-  private $title;
-  private $description;
-  private $creationDate;
-  private $status;
+  private ?int $id = null;
+  private int $userId;
+  private string $title;
+  private string $status;
+  private ?string $description;
+  private ?string $creationDate;
 
-  public function __construct($userId, $title, $description, $status, $creationDate = null) {
+  public function __construct(
+    int $userId,
+    string $title,
+    string $status,
+    ?string $description = null,
+    ?string $creationDate = null
+  ) {
     $this->userId = $userId;
     $this->title = $title;
-    $this->description = $description;
     $this->status = $status;
+    $this->description = $description;
     $this->creationDate = $creationDate;
   }
 
-  public function getId() {
+  public function getId(): ?int
+  {
     return $this->id;
   }
 
-  public function setId($id) {
+  public function setId($id): self
+  {
     $this->id = $id;
     return $this;
   }
 
-  public function getUserId() {
+  public function getUserId(): int
+  {
     return $this->userId;
   }
 
-  public function setUserId($userId) {
+  public function setUserId($userId): self
+  {
     $this->userId = $userId;
     return $this;
   }
 
-  public function getTitle() {
+  public function getTitle(): string
+  {
     return $this->title;
   }
 
-  public function setTitle($title) {
+  public function setTitle($title): self
+  {
     $this->title = $title;
     return $this;
   }
 
-  public function getDescription() {
+  public function getDescription(): ?string
+  {
     return $this->description;
   }
 
-  public function setDescription($description) {
+  public function setDescription($description): self 
+  {
     $this->description = $description;
     return $this;
   }
 
-  public function getCreationDate() {
+  public function getCreationDate(): ?string
+  {
     return $this->creationDate;
   }
 
-  public function setCreationDate($creationDate) {
+  public function setCreationDate($creationDate): self
+  {
     $this->creationDate = $creationDate;
     return $this;
   }
 
-  public function getStatus() {
+  public function getStatus(): string
+  {
     return $this->status;
   }
 
-  public function setStatus($status) {
+  public function setStatus($status): self
+  {
     $this->status = $status;
     return $this;
   }
@@ -78,19 +96,29 @@ class Task {
       'id' => $this->id,
       'user_id' => $this->userId,
       'title' => $this->title,
+      'status' => $this->status,
       'description' => $this->description,
-      'creation_date' => $this->creationDate,
-      'status' => $this->status
+      'creation_date' => $this->creationDate
     ];
   }
 
   public static function fromArray(array $data): self 
   {
-    $task = new self($data['user_id'], $data['title'], $data['description'], $data['status']);
-    $task->setId($data['id']);
+    $task = new self(
+      $data['user_id'],
+      $data['title'],
+      $data['status'],
+      $data['description'] ?? null
+    );
+
+    if (isset($data['id'])) {
+      $task->setId($data['id']);
+    }
+
     if (isset($data['creation_date'])) {
       $task->setCreationDate($data['creation_date']);
     }
+
     return $task;
   }
 }

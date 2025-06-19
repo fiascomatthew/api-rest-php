@@ -29,14 +29,16 @@ class TaskRepository {
     $stmt = $this->pdo->prepare('
       INSERT INTO tasks (user_id, title, description, status)
       VALUES (?, ?, ?, ?)
-      RETURNING id, user_id, title, description, status
+      RETURNING id, user_id, title, description, status, creation_date
     ');
+
     $stmt->execute([
       $task->getUserId(),
       $task->getTitle(),
       $task->getDescription(),
       $task->getStatus()
     ]);
+    
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     return Task::fromArray($row);
   }

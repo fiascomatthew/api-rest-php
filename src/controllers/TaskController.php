@@ -7,10 +7,10 @@ require_once __DIR__ . '/../utils/Response.php';
 
 class TaskController {
 
-  private $repository;
-  private $userRepository;
+  private TaskRepository $repository;
+  private UserRepository $userRepository;
 
-  public function __construct($pdo) {
+  public function __construct(PDO $pdo) {
     $this->repository = new TaskRepository($pdo);
     $this->userRepository = new UserRepository($pdo);
   }
@@ -46,8 +46,8 @@ class TaskController {
       return Response::badRequest(['errors' => $errors]);
     }
 
-    $task = new Task($userId, $input['title'], $input['description'], $input['status']);
-    $task = $this->repository->insert($task);
+    $taskObject = new Task($userId, $input['title'], $input['status'], $input['description'] ?? null);
+    $task = $this->repository->insert($taskObject);
     return Response::created($task->toArray());
   }
 

@@ -8,7 +8,7 @@ class Validator {
     if (!isset($input['title']) || !is_string($input['title']) || trim($input['title']) === '') {
       $errors[] = 'Title is required and cannot be empty';
     }
-    if (mb_strlen($input['title']) > $maxLength) {
+    if (isset($data['title']) && mb_strlen($input['title']) > $maxLength) {
       $errors[] = "Title must have less than $maxLength characters";
     }
     if (isset($input['description']) && !is_string($input['description'])) {
@@ -17,7 +17,7 @@ class Validator {
     if (!isset($input['status']) || !in_array($input['status'], ['pending', 'in_progress', 'done'])) {
       $errors[] = 'Status is required and must be \'pending\', \'in_progress\' or \'done\'';
     }
-    if (mb_strlen($input['status']) > $maxLength) {
+    if (isset($data['status']) && mb_strlen($input['status']) > $maxLength) {
       $errors[] = "Status must have less than $maxLength characters";
     }
 
