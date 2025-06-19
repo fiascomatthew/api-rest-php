@@ -11,6 +11,19 @@ Voici la liste des endpoints que je vais mettre en place pour l'API demandée:
 | POST         | /users/{id}/tasks           | Créer et ajouter une nouvelle tâche pour un utilisateur  | { title, description, status }  | { id, user_id, title, description, creation_date, status }     |
 | DELETE       | /tasks/{id}                 | Supprimer une tâche                                      | -                               | -                                                              |
 
+### Prérequis pour l'installation
+
+- Docker et Docker Compose installés
+
+### Installation
+
+- Lancer l'application avec Docker 
+```bash
+docker-compose up --build
+```
+- Les scripts d'initialisation et de seeding sont automatiquement exécutés lors des démarrages des conteneurs
+- L'API sera accessible à l'adresse http://localhost:8080
+
 
 ## Hameçon
 
