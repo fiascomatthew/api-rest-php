@@ -36,14 +36,14 @@ class TaskController {
 
   public function create($userId) {
     $input = json_decode(file_get_contents('php://input'), true);
+    
+    if (!$this->userRepository->findById($userId)) {
+      return Response::notFound(['error' => 'User not found']);
+    }
 
     $errors = Validator::validateTaskInput($input);
     if (!empty($errors)) {
       return Response::badRequest(['errors' => $errors]);
-    }
-    
-    if (!$this->userRepository->findById($userId)) {
-      return Response::notFound(['error' => 'User not found']);
     }
 
     $task = new Task($userId, $input['title'], $input['description'], $input['status']);
