@@ -71,4 +71,26 @@ class Task {
     $this->status = $status;
     return $this;
   }
+
+  public function toArray(): array
+  {
+    return [
+      'id' => $this->id,
+      'user_id' => $this->userId,
+      'title' => $this->title,
+      'description' => $this->description,
+      'creation_date' => $this->creationDate,
+      'status' => $this->status
+    ];
+  }
+
+  public static function fromArray(array $data): self 
+  {
+    $task = new self($data['user_id'], $data['title'], $data['description'], $data['status']);
+    $task->setId($data['id']);
+    if (isset($data['creation_date'])) {
+      $task->setCreationDate($data['creation_date']);
+    }
+    return $task;
+  }
 }

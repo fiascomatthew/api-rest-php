@@ -22,7 +22,7 @@ class TaskController {
       return Response::notFound(['error' => 'Task not found']);
     }
 
-    return Response::ok($task);
+    return Response::ok($task->toArray());
   }
 
   public function listByUser($userId) {
@@ -31,7 +31,7 @@ class TaskController {
     }
     
     $tasks = $this->repository->findAllByUserId($userId);
-    return Response::ok($tasks);
+    return Response::ok(array_map(fn($task) => $task->toArray(), $tasks));
   }
 
   public function create($userId) {
@@ -48,7 +48,7 @@ class TaskController {
 
     $task = new Task($userId, $input['title'], $input['description'], $input['status']);
     $task = $this->repository->insert($task);
-    return Response::created($task);
+    return Response::created($task->toArray());
   }
 
   public function delete($id) {

@@ -2,25 +2,30 @@
 require_once __DIR__ . '/../config/Database.php';
 
 class TaskRepository {
-  private $pdo;
+  private PDO $pdo;
 
-  public function __construct($pdo) {
+  public function __construct(PDO $pdo) {
     $this->pdo = $pdo;
   }
 
-  public function findById($id) {
+  public function findById($id): ?Task
+  {
     $stmt = $this->pdo->prepare('SELECT id, user_id, title, description, creation_date, status FROM tasks WHERE id = ?');
     $stmt->execute([$id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ? Task::fromArray($row) : null;
   }
 
-  public function findAllByUserId($userId) {
+  public function findAllByUserId($userId): array
+  {
     $stmt = $this->pdo->prepare('SELECT id, user_id, title, description, creation_date, status FROM tasks WHERE user_id = ?');
     $stmt->execute([$userId]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return array_map(fn($row) => Task::fromArray($row), $rows);
   }
 
-  public function insert(Task $task) {
+  public function insert(Task $task): Task
+  {
     $stmt = $this->pdo->prepare('
       INSERT INTO tasks (user_id, title, description, status)
       VALUES (?, ?, ?, ?)
@@ -32,17 +37,14 @@ class TaskRepository {
       $task->getDescription(),
       $task->getStatus()
     ]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return Task::fromArray($row);
   }
 
-  public function delete($id) {
+  public function delete($id): bool 
+  {
     $stmt = $this->pdo->prepare('SELECT id FROM tasks WHERE id = ?');
     $stmt->execute([$id]);
-    $task = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$task) return false;
-
-    $stmt = $this->pdo->prepare('DELETE FROM tasks WHERE id = ?');
-    $stmt->execute([$id]);
-    return true;
+    return $stmt->rowCount() > 0;
   }
 }
