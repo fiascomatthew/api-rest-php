@@ -39,6 +39,13 @@ Pour le schéma conceptuel j'ai choisi le modèle Merise MCD. Voici le MCD que j
 
 ### Clés primaires et clés étrangères
 
+Il y a trois clefs primaires (Primary Key):
+- réf_utilisateur pour l'entité Utilisateur
+- réf_carte pour l'entité Carte
+- réf_opération pour l'entité Opération
 
+Il y a deux clefs étrangères (Foreign Key) à déduire des relations et cardinalités:
+- Une carte appartient nécessairement à un utilisateur -> l'entité Carte contient donc une FK utilisateur_réf
+- Une opération est nécessairement effectuée avec une carte -> l'entité Opération contient donc une FK carte_réf
 
 ### Exemples de requête SQL
