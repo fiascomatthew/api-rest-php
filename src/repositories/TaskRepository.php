@@ -22,9 +22,9 @@ class TaskRepository {
 
   public function insert(Task $task) {
     $stmt = $this->pdo->prepare('
-      INSERT INTO tasks (user_id, title, description, creation_date, status)
-      VALUES (?, ?, ?, NOW(), ?)
-      RETURNING id, user_id, title, description, creation_date, status
+      INSERT INTO tasks (user_id, title, description, status)
+      VALUES (?, ?, ?, ?)
+      RETURNING id, user_id, title, description, status
     ');
     $stmt->execute([
       $task->getUserId(),
