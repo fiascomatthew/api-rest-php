@@ -21,7 +21,7 @@ Voici la liste des endpoints que je vais mettre en place pour l'API demandée:
 ```bash
 docker-compose up --build
 ```
-- Les scripts d'initialisation et de seeding sont automatiquement exécutés lors des démarrages des conteneurs
+- Les scripts d'initialisation et de seeding sont automatiquement exécutés au démarrage des conteneurs
 - L'API sera accessible à l'adresse http://localhost:8080
 
 
@@ -33,9 +33,12 @@ Pour pouvoir informer le partenaire de manière automatisée, je propose qu'on m
 
 ### Schéma conceptuel
 
-Pour le schéma conceptuel j'ai choisi le modèle Merise MCD:
+Pour le schéma conceptuel j'ai choisi le modèle Merise MCD. Voici le MCD que j'ai fait sur le site [Mocodo](https://www.mocodo.net/?mcd=eNpFj00KwjAQRvc5xRxgFrp1V2qEgtjSpm4l2hED-SNNRY_gUXqOXMxQC26G7xuY95heVMeqKwTv2x2ENN8vU1RajTLSFBCsMwg-75cQ06zT7B_OEgIZqTRr6q5Lnz1vETYn6P80hO0WyqIVnC3zR4ebDDEf28mkOTiEIYuAXl4FGZWzCOX5jHBzA4FXuXot784OYMiOE2nGDwdein71LeTFVDfp0xaiqk_sH1en89m14o2zUdqYf3l7-ukRtLySzoWeaiT2BTygX4c=):
 
-
+![MCD](docs/mcd.png)
 
 ### Clés primaires et clés étrangères
+
+
+
 ### Exemples de requête SQL
