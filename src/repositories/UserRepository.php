@@ -2,15 +2,17 @@
 require_once __DIR__ . '/../config/Database.php';
 
 class UserRepository {
-  private $pdo;
+  private PDO $pdo;
 
-  public function __construct($pdo) {
+  public function __construct(PDO $pdo) {
     $this->pdo = $pdo;
   }
 
-  public function findById($id) {
+  public function findById($id): ?User
+  {
     $stmt = $this->pdo->prepare('SELECT id, name, email FROM users WHERE id = ?');
     $stmt->execute([$id]);
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ? User::fromArray($row) : null;
   }
 }

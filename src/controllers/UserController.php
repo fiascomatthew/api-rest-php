@@ -1,12 +1,13 @@
 <?php
+require_once __DIR__ . '/../models/User.php';
 require_once __DIR__ . '/../repositories/UserRepository.php';
 require_once __DIR__ . '/../utils/Response.php';
 
 class UserController {
 
-  private $repository;
+  private UserRepository $repository;
 
-  public function __construct($pdo) {
+  public function __construct(PDO $pdo) {
     $this->repository = new UserRepository($pdo);
   }
 
@@ -17,6 +18,6 @@ class UserController {
       return Response::notFound(['error' => 'User not found']);
     }
 
-    return Response::ok($user);
+    return Response::ok($user->toArray());
   }
 }
