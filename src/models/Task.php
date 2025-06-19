@@ -10,12 +10,12 @@ class Task {
   private $creationDate;
   private $status;
 
-  public function __construct($userId, $title, $description, $status) {
+  public function __construct($userId, $title, $description, $status, $creationDate = null) {
     $this->userId = $userId;
     $this->title = $title;
     $this->description = $description;
     $this->status = $status;
-    $this->creationDate = date('Y-m-d H:i:s');
+    $this->creationDate = $creationDate;
   }
 
   public function getId() {
