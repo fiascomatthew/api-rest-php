@@ -38,10 +38,8 @@ class TaskController {
     return Response::ok(array_map(fn($task) => $task->toArray(), $tasks));
   }
 
-  public function create(int $userId): Response
+  public function create(int $userId, array $input): Response
   {
-    $input = json_decode(file_get_contents('php://input'), true);
-    
     if (!$this->userRepository->findById($userId)) {
       return Response::notFound(['error' => 'User not found']);
     }

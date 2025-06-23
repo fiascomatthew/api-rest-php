@@ -2,13 +2,12 @@
 declare(strict_types=1);
 
 class Router {
-  private string $uri;
-  private string $method;
+
+  private Request $request;
   private array $routes = [];
 
-  public function __construct(string $uri, string $method) {
-    $this->uri = $uri;
-    $this->method = $method;
+  public function __construct(Request $request) {
+    $this->request = $request;
   }
 
   public function add(string $method, string $pattern, callable $callback): void
@@ -23,7 +22,7 @@ class Router {
   public function dispatch(): mixed 
   {
     foreach ($this->routes as $route) {
-      if ($this->method === $route['method'] && preg_match($route['pattern'], $this->uri, $matches)) {
+      if ($this->request->getMethod() === $route['method'] && preg_match($route['pattern'], $this->request->getUri(), $matches)) {
         array_shift($matches);
         return call_user_func_array($route['callback'], $matches);
       }
