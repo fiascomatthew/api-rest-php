@@ -41,5 +41,5 @@ try {
     $response->send();
   }
 } catch (Throwable $e) {
-  Response::internalServerError(['error' => $e->getMessage()])->send();
+  Response::internalServerError(['error' => 'An internal server error occurred. Contact the service support'])->send();
 }
