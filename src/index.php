@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 require_once __DIR__ . '/config/Database.php';
 require_once __DIR__ . '/controllers/UserController.php';
 require_once __DIR__ . '/controllers/TaskController.php';
@@ -18,19 +20,19 @@ $taskController = new TaskController($pdo);
 $router = new Router($uri, $method);
 
 $router->add('GET', '#^/users/(\d+)$#', function($id) use ($userController) {
-  return $userController->show($id);
+  return $userController->show((int)$id);
 });
 $router->add('GET', '#^/tasks/(\d+)$#', function($id) use ($taskController) {
-  return $taskController->show($id);
+  return $taskController->show((int)$id);
 });
 $router->add('GET', '#^/users/(\d+)/tasks$#', function($userId) use ($taskController) {
-  return $taskController->listByUser($userId);
+  return $taskController->listByUser((int)$userId);
 });
 $router->add('POST', '#^/users/(\d+)/tasks$#', function($userId) use ($taskController) {
-  return $taskController->create($userId);
+  return $taskController->create((int)$userId);
 });
 $router->add('DELETE', '#^/tasks/(\d+)$#', function($id) use ($taskController) {
-  return $taskController->delete($id);
+  return $taskController->delete((int)$id);
 });
 
 try {
