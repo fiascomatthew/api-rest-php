@@ -47,7 +47,7 @@ class TaskRepository {
 
   public function delete(int $id): bool 
   {
-    $stmt = $this->pdo->prepare('SELECT id FROM tasks WHERE id = ?');
+    $stmt = $this->pdo->prepare('DELETE FROM tasks WHERE id = ?');
     $stmt->execute([$id]);
     return $stmt->rowCount() > 0;
   }
